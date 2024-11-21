@@ -20,6 +20,7 @@ jobs:
           echo SOLUTION_FILE: ${{ vars.SOLUTION_FILE }}
           echo MS_BUILD_ARGS: ${{ vars.MS_BUILD_ARGS }}
           echo MS_BUILD_PLATFORM: ${{ vars.MS_BUILD_PLATFORM }}
+          echo MS_BUILD_CONFIGURATION: ${{ vars.MS_BUILD_CONFIGURATION }}
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,7 +38,7 @@ jobs:
 
       - name: Restore the application
         run: |
-          msbuild ${{ vars.SOLUTION_FILE }} ${{ vars.MS_BUILD_ARGS }} /p:platform=${{ vars.MS_BUILD_PLATFORM }} /p:Configuration=${{ inputs.ENVIRONMENT }} /p:PublishUrl='../_build'
+          msbuild ${{ vars.SOLUTION_FILE }} ${{ vars.MS_BUILD_ARGS }} /p:platform=${{ vars.MS_BUILD_PLATFORM }} /p:Configuration=${{ vars.MS_BUILD_CONFIGURATION }} /p:PublishUrl='../_build'
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
