@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-    environment: ${{ inputs.ENVIRONMENT}}
+    environment: ${{ inputs.ENVIRONMENT }}
 
     steps:
       - name: Debug
@@ -18,9 +18,26 @@ jobs:
           echo ENVIRONMENT: ${{ inputs.ENVIRONMENT }}
           echo ENVIRONMENT_PREFIX: ${{ vars.ENVIRONMENT_PREFIX }}
           echo SOLUTION_FILE: ${{ vars.SOLUTION_FILE }}
+          echo MS_BUILD_ARGS: ${{ vars.MS_BUILD_ARGS }}
+          echo MS_BUILD_PLATFORM: ${{ vars.MS_BUILD_PLATFORM }}
 
       - name: Checkout
         uses: actions/checkout@v4
         
-      - name: Restore Packages
+      - name: Restore Nuget Packages
         run: nuget restore ${{ vars.SOLUTION_FILE }}
+
+      - name: Create Build Directory
+        run: |
+          cd $GITHUB_WORKSPACE
+          mkdir _build
+
+      - name: Restore the application
+        run: |
+          msbuild ${{ vars.SOLUTION_FILE }} ${{ vars.MS_BUILD_ARGS }} /p:platform=${{ vars.MS_BUILD_PLATFORM }} /p:Configuration=${{ inputs.ENVIRONMENT }} /p:PublishUrl='../_build'
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ vars.ARTIFACT_NAME }}-${{ vars.ENVIRONMENT_PREFIX }}
+          path: "./_build"
