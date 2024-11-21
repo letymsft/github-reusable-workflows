@@ -13,7 +13,14 @@ jobs:
     environment: ${{ inputs.ENVIRONMENT}}
 
     steps:
-       - name: Debug
-         run: |
-           echo "ENVIRONMENT:" ${{ inputs.ENVIRONMENT }}
-           echo "ENVIRONMENT_PREFIX": ${{ vars.ENVIRONMENT_PREFIX }}
+      - name: Debug
+        run: |
+          echo ENVIRONMENT: ${{ inputs.ENVIRONMENT }}
+          echo ENVIRONMENT_PREFIX: ${{ vars.ENVIRONMENT_PREFIX }}
+          echo SOLUTION_FILE: ${{ vars.SOLUTION_FILE }}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Restore Packages
+        run: nuget restore ${{ vars.SOLUTION_FILE }}
