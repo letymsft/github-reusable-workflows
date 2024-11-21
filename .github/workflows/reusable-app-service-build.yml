@@ -34,7 +34,7 @@ jobs:
 
       - name: Restore the application
         run: |
-          msbuild ${{ vars.SOLUTION_FILE }} ${{ vars.MS_BUILD_ARGS }} /p:platform=${{ vars.MS_BUILD_PLATFORM }} /p:Configuration=${{ inputs.ENVIRONMENT }} /p:PublishUrl='../_build'
+          msbuild.exe ${{ vars.SOLUTION_FILE }} ${{ vars.MS_BUILD_ARGS }} /p:platform=${{ vars.MS_BUILD_PLATFORM }} /p:Configuration=${{ inputs.ENVIRONMENT }} /p:PublishUrl='../_build'
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
