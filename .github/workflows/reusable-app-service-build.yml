@@ -1,0 +1,19 @@
+name: App Service Build
+
+on:
+  workflow_call:
+    inputs:
+      ENVIRONMENT:
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: windows-latest
+    environment: ${{ inputs.ENVIRONMENT}}
+
+    steps:
+       - name: Debug
+         run: |
+           echo "ENVIRONMENT:" ${{ inputs.ENVIRONMENT }}
+           echo "ENVIRONMENT_PREFIX": ${{ vars.ENVIRONMENT_PREFIX }}
